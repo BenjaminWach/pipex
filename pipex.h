@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 16:22:09 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/07 18:45:57 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/08 11:46:07 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_pipex
 	int		tube[2];
 	int		fd_in;
 	int		fd_out;
+	int		fd_bonus;
 	char	*cmd;
 	char	**cmd_flags;
 	char	*paths;
