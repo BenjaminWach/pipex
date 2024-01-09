@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 16:21:36 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/09 14:30:55 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/09 15:35:20 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	pipex;
 	int		status;
 
-	if (argc != 5 || is_bonus(argc, argv, envp, &pipex) == 0)
+	if (argc != 5)
 		return (name_prog(argv), msg_error(ERR_INPUT));
 	if (argv[1] == NULL || argv[argc - 1] == NULL)
 		return (msg_error(ERR_INPUT));
