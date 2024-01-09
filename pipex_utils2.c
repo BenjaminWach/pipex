@@ -6,11 +6,16 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 23:45:06 by bwach             #+#    #+#             */
-/*   Updated: 2023/12/25 18:30:08 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/09 13:12:22 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	ft_bzero(void *s, size_t n)
+{
+	ft_memset(s, 0, n);
+}
 
 static size_t	ft_count_words(const char *s, char c)
 {

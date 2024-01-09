@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msg_error.c                                        :+:      :+:    :+:   */
+/*   pipex_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/24 16:24:54 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/09 14:30:35 by bwach            ###   ########.fr       */
+/*   Created: 2024/01/09 13:15:58 by bwach             #+#    #+#             */
+/*   Updated: 2024/01/09 14:32:49 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	name_prog(char **argv)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	char	*prog_name;
+	unsigned char	*d;
 
-	prog_name = ft_strrchr(argv[0], '/') + 1;
-	if (!prog_name || !*prog_name)
-		prog_name = argv[0];
-	write(2, prog_name, ft_strlen(prog_name));
+	d = (unsigned char *)b;
+	while (len--)
+		d[len] = (unsigned char)c;
+	return (b);
 }
 
-int	msg_error(char *msg)
+char	*ft_strrchr(const char *s, int c)
 {
-	write(2, ": ", 2);
-	write(2, msg, ft_strlen(msg));
-	return (1);
-}
+	const char	*temp;
 
-void	error_quit(char *msg)
-{
-	perror(msg);
-	exit(1);
+	temp = NULL;
+	while (*s)
+	{
+		if (*s == (unsigned char)c)
+			temp = s;
+		s++;
+	}
+	if ((unsigned char)c == 0)
+		return ((char *)s);
+	return ((char *)temp);
 }

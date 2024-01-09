@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 11:21:38 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/08 14:11:31 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/09 10:48:19 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 static char	get_input_doc(t_pipex *pipex, char **argv)
 {
+	char	**limiter;
+	char	*line;
+
 	limiter = argv[2];
-	stck;
+	line = ft_calloc(1, sizeof(char *));
 	while
 		write (>)
 		get_next_line(0);
@@ -24,7 +27,7 @@ static char	get_input_doc(t_pipex *pipex, char **argv)
 		
 }
 
-void	ft_here_doc(char **argv, t_pipex *pipex)
+void	ft_here_doc(char **argv, t_pipex pipex)
 {
 	char	*line;
 
@@ -33,5 +36,4 @@ void	ft_here_doc(char **argv, t_pipex *pipex)
 		error_quit(ERR_INPUT);
 	pipex->fd_bonus = open("/tmp/.pipex_here_doc", O_WRONLY
 		| O_CREAT | O_TRUNC | 0644);
-	
 }

@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 16:22:09 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/08 11:46:07 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/09 14:33:04 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # define ERR_PIPE "Pipe error\n"
 # define ERR_PATH "Path not found\n"
 # define ERR_EXE "Execve failed\n"
+# define ERR_FORK "Fork failed\n"
 
 typedef struct s_pipex
 {
@@ -47,7 +48,6 @@ typedef struct s_pipex
 	int		tube[2];
 	int		fd_in;
 	int		fd_out;
-	int		fd_bonus;
 	char	*cmd;
 	char	**cmd_flags;
 	char	*paths;
@@ -57,9 +57,16 @@ typedef struct s_pipex
 //main
 int		main(int argc, char **argv, char **envp);
 
+//parse
+char	*ft_find_path(char **envp);
+void	paths_to_cmd(t_pipex *pipex, char **envp);
+void	exit_pipe(t_pipex *pipex);
+
 //bonus
-int		is_bonus(int argc, char **argv);
-void	ft_here_doc(char *argv[], t_pipex *pipex);
+int		is_bonus(int argc, char **argv, char **envp, t_pipex *pipex);
+void	ft_here_doc(char *argv[], t_pipex pipex);
+void	paths_to_cmd(t_pipex *pipex, char **envp);
+void	exit_pipe(t_pipex *pipex);
 
 //forks:
 void	first_son(t_pipex pipex, char **argv, char **envp);
@@ -71,8 +78,13 @@ int		ft_strlen(char *str);
 char	**ft_split(char *s, char c);
 char	*ft_substr(char *str, int start, int len);
 char	*ft_strjoin(char *s1, char *s2);
+void	*ft_calloc(size_t count, size_t size);
+void	ft_bzero(void *s, size_t n);
+void	*ft_memset(void *b, int c, size_t len);
+char	*ft_strrchr(const char *s, int c);
 
 //error managements:
+void	name_prog(char **argv);
 int		msg_error(char *msg);
 void	error_quit(char *msg);
 

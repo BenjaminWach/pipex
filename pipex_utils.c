@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 23:26:01 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/05 02:47:44 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/09 10:52:11 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@ int	ft_strlen(char *str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	size_t	n;
+	void	*s;
+
+	n = count * size;
+	s = malloc(n);
+	if (!s)
+		return (NULL);
+	else
+		ft_bzero(s, n);
+	return (s);
 }
 
 int	ft_strncmp(char *s1, char *s2, int n)
