@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bonus.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 16:46:28 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/09 13:36:45 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/09 15:54:41 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	pipex_bonus(int argc, char **argv, char **envp, t_pipex *pipex)
 	int	nb_cmd;
 
 	nb_cmd = 0;
+	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
+		ft_here_doc(argv, *pipex);
 	setting_bonus_var(&pipex, argc, argv);
 	paths_to_cmd(&pipex, envp);
 	while (nb_cmd <= argc - 3)

@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 16:21:36 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/09 15:35:20 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/09 15:54:24 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ static void	setting_variables(t_pipex *pipex, int argc, char **argv)
 {
 	if (access(argv[1], F_OK) == -1)
 		error_quit(ERR_INFILE);
-	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
-		ft_here_doc(argv, *pipex);
 	if (pipe(pipex->tube) < 0)
 		error_quit(ERR_PIPE);
 	pipex->fd_in = open(argv[1], O_RDONLY);

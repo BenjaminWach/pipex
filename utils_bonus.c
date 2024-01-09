@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc.c                                         :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 11:21:38 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/09 10:48:19 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/09 15:54:50 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,4 @@ void	ft_here_doc(char **argv, t_pipex pipex)
 	if (!line)
 		error_quit(ERR_INPUT);
 	pipex->fd_bonus = open("/tmp/.pipex_here_doc", O_WRONLY
-		| O_CREAT | O_TRUNC | 0644);
-}
+		| O_CREAT | O_TRUNC | 0644);}
