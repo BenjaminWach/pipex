@@ -6,11 +6,11 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 16:21:36 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/09 15:54:24 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/10 13:22:36 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../inc/pipex.h"
 
 static void	setting_variables(t_pipex *pipex, int argc, char **argv)
 {
@@ -61,9 +61,9 @@ int	main(int argc, char **argv, char **envp)
 	int		status;
 
 	if (argc != 5)
-		return (name_prog(argv), msg_error(ERR_INPUT));
+		error_quit(ERR_INPUT);
 	if (argv[1] == NULL || argv[argc - 1] == NULL)
-		return (msg_error(ERR_INPUT));
+		error_quit(ERR_INPUT);
 	setting_variables(&pipex, argc, argv);
 	paths_to_cmd(&pipex, envp);
 	pipex.pid_child1 = fork();

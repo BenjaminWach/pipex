@@ -1,36 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msg_error.c                                        :+:      :+:    :+:   */
+/*   clean_all.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/24 16:24:54 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/09 14:30:35 by bwach            ###   ########.fr       */
+/*   Created: 2023/12/24 22:26:16 by bwach             #+#    #+#             */
+/*   Updated: 2024/01/10 13:21:47 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../inc/pipex.h"
 
-void	name_prog(char **argv)
+void	free_parent(t_pipex *pipex)
 {
-	char	*prog_name;
+	int	i;
 
-	prog_name = ft_strrchr(argv[0], '/') + 1;
-	if (!prog_name || !*prog_name)
-		prog_name = argv[0];
-	write(2, prog_name, ft_strlen(prog_name));
+	i = 0;
+	close(pipex->fd_in);
+	close(pipex->fd_out);
+	while (pipex->cmd_paths[i])
+	{
+		free(pipex->cmd_paths[i]);
+		i++;
+	}
+	free(pipex->cmd_paths);
 }
 
-int	msg_error(char *msg)
+void	free_child(t_pipex *pipex)
 {
-	write(2, ": ", 2);
-	write(2, msg, ft_strlen(msg));
-	return (1);
-}
+	int	i;
 
-void	error_quit(char *msg)
-{
-	perror(msg);
-	exit(1);
+	i = 0;
+	while (pipex->cmd_flags[i])
+	{
+		free(pipex->cmd_flags[i]);
+		i++;
+	}
+	free(pipex->cmd_flags);
+	free(pipex->cmd);
 }

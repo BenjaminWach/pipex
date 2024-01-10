@@ -6,11 +6,11 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 22:19:50 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/05 02:52:15 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/10 13:22:04 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../inc/pipex.h"
 
 static char	*fetch_command(char **path, char *flag)
 {

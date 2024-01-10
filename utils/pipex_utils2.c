@@ -6,11 +6,11 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 23:45:06 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/09 13:12:22 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/10 13:23:03 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../inc/pipex.h"
 
 void	ft_bzero(void *s, size_t n)
 {

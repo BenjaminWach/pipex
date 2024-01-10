@@ -1,42 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean_all.c                                        :+:      :+:    :+:   */
+/*   pipex_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/24 22:26:16 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/01 13:49:40 by bwach            ###   ########.fr       */
+/*   Created: 2024/01/09 13:15:58 by bwach             #+#    #+#             */
+/*   Updated: 2024/01/10 13:23:07 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../inc/pipex.h"
 
-void	free_parent(t_pipex *pipex)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	int	i;
+	unsigned char	*d;
 
-	i = 0;
-	close(pipex->fd_in);
-	close(pipex->fd_out);
-	while (pipex->cmd_paths[i])
-	{
-		free(pipex->cmd_paths[i]);
-		i++;
-	}
-	free(pipex->cmd_paths);
+	d = (unsigned char *)b;
+	while (len--)
+		d[len] = (unsigned char)c;
+	return (b);
 }
 
-void	free_child(t_pipex *pipex)
+char	*ft_strrchr(const char *s, int c)
 {
-	int	i;
+	const char	*temp;
 
-	i = 0;
-	while (pipex->cmd_flags[i])
+	temp = NULL;
+	while (*s)
 	{
-		free(pipex->cmd_flags[i]);
-		i++;
+		if (*s == (unsigned char)c)
+			temp = s;
+		s++;
 	}
-	free(pipex->cmd_flags);
-	free(pipex->cmd);
+	if ((unsigned char)c == 0)
+		return ((char *)s);
+	return ((char *)temp);
 }

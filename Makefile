@@ -6,7 +6,7 @@
 #    By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/24 15:29:03 by bwach             #+#    #+#              #
-#    Updated: 2024/01/09 14:26:36 by bwach            ###   ########.fr        #
+#    Updated: 2024/01/10 13:46:45 by bwach            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,34 +20,58 @@ RM = rm -f
 PRINTF = printf
 BIN = pipex
 
-SRC = pipex.c \
-	fork.c \
-	msg_error.c \
-	clean_all.c \
-	pipex_utils.c pipex_utils2.c pipex_utils3.c\
-	bonus.c here_doc.c\
-	
-OBJ = $(SRC:.c=.o)
+#FILES AND PATH
+HEADER_SRCS	=	pipex.h 
+HEADER_DIR	=	inc/
+HEADER		=	$(addprefix $(HEADER_DIR), $(HEADER_SRCS))
+
+MPATH_SRCS	=	pipex.c fork.c msg_error.c clean_all.c
+MPATH_DIR	=	src/
+MPATH		=	$(addprefix $(MPATH_DIR), $(MPATH_SRCS))
+OBJ_M		=	$(MPATH:.c=.o)
+
+BPATH_SRCS	=	pipex_bonus.c error_bonus.c here_doc_bonus.c\
+				files_bonus.c free_bonus.c child_bonus.c
+BPATH_DIR	=	bonus/
+BPATH		=	$(addprefix $(BPATH_DIR), $(BPATH_SRCS))
+OBJ_B		=	$(BPATH:.c=.o)
+
+UTIL_SRCS	=	pipex_utils.c pipex_utils2.c pipex_utils3.c
+UTIL_DIR	=	utils/
+UTILS 		=	$(addprefix $(UTIL_DIR), $(UTIL_SRCS))\
+				gnl/get_next_line_utils.c gnl/get_next_line.c
+OBJ_U		=	$(UTILS:.c=.o)
+
+#COMMANDS
+%.o: %.c $(HEADER) Makefile
+	@${CC} ${FLAGS} -c $< -o $@
+
+$(NAME): $(OBJ_U) $(OBJ_M)
+	@$(CC) $(OBJ_U) $(OBJ_M) -o $(NAME)
+	@echo -e "$(GREEN)$(NAME) created!$(DEFAULT)"
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
-	@echo "Compilation done"
-
 norminette: | $(SRC) 
 	@$(PRINTF) "$(CYAN)\nCheck with dat Norminette: $(BIN) $(DEFAULT)\n"
-	@norminette -R CheckForbiddenSourceHeader $(SRC_FILES) $(LIBFT_DIR)/*.c
-	@norminette -R CheckDefine $(LIBFT_DIR)/*.c
+	@norminette -R CheckForbiddenSourceHeader $(MPATH_SRCS) $(UTILS_SRCS)/*.c
+	@norminette -R CheckDefine $(HEADER_SRCS)/*.c
 	@echo "$(CYAN)\tNorminette done and validated faggot 🤣\n $(DEFAULT)"
 
+bonus:	$(OBJ_U) $(OBJ_B)
+	@$(CC) $(OBJ_U) $(OBJ_B) -o $(NAME)
+	@echo -e "$(GREEN)$(NAME) created!$(DEFAULT)"
+
 clean:
-	$(RM) $(OBJ)
+	@$(RM) $(OBJ_M)
+	@$(RM) $(OBJ_U)
+	@$(RM) $(OBJ_B)
+	@echo -e "$(YELLOW)object files deleted!$(DEFAULT)"
 
-fclean: clean
-	$(RM) $(NAME)
-	@echo "Cleaning done"
+fclean:	clean
+	@$(RM) $(NAME)
+	@echo -e "$(RED)all deleted!$(DEFAULT)"
 
-re: fclean all
+re:	fclean all
 
-.PHONY: all clean fclean re
+.PHONY:	all clean fclean bonus re
