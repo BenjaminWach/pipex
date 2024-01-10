@@ -6,7 +6,7 @@
 #    By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/24 15:29:03 by bwach             #+#    #+#              #
-#    Updated: 2024/01/10 13:46:45 by bwach            ###   ########.fr        #
+#    Updated: 2024/01/10 15:48:38 by bwach            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,7 @@ MPATH_DIR	=	src/
 MPATH		=	$(addprefix $(MPATH_DIR), $(MPATH_SRCS))
 OBJ_M		=	$(MPATH:.c=.o)
 
-BPATH_SRCS	=	pipex_bonus.c error_bonus.c here_doc_bonus.c\
-				files_bonus.c free_bonus.c child_bonus.c
+BPATH_SRCS	=		
 BPATH_DIR	=	bonus/
 BPATH		=	$(addprefix $(BPATH_DIR), $(BPATH_SRCS))
 OBJ_B		=	$(BPATH:.c=.o)
@@ -54,9 +53,9 @@ all: $(NAME)
 
 norminette: | $(SRC) 
 	@$(PRINTF) "$(CYAN)\nCheck with dat Norminette: $(BIN) $(DEFAULT)\n"
-	@norminette -R CheckForbiddenSourceHeader $(MPATH_SRCS) $(UTILS_SRCS)/*.c
-	@norminette -R CheckDefine $(HEADER_SRCS)/*.c
-	@echo "$(CYAN)\tNorminette done and validated faggot 🤣\n $(DEFAULT)"
+	@norminette -R CheckForbiddenSourceHeader $(MPATH_DIR) $(UTIL_DIR)/*.c
+	@norminette -R CheckDefine $(MPATH_DIR) $(UTIL_DIR)/*.c
+	@echo "$(CYAN)\nNorminette done and validated faggot 🤣\n $(DEFAULT)"
 
 bonus:	$(OBJ_U) $(OBJ_B)
 	@$(CC) $(OBJ_U) $(OBJ_B) -o $(NAME)

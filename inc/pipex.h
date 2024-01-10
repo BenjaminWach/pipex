@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 16:22:09 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/09 14:33:04 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/10 15:35:09 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,12 @@
 # define ERR_INPUT "Invalid numbers of arguments\n"
 # define ERR_INFILE "Infile error\n"
 # define ERR_OUTFILE "Outfile error\n"
-# define ERR_CMD "Command not found\n"
+# define ERR_CMD "Command not found: "
 # define ERR_PIPE "Pipe error\n"
 # define ERR_PATH "Path not found\n"
 # define ERR_EXE "Execve failed\n"
 # define ERR_FORK "Fork failed\n"
+# define ERR_HEREDOC "here_doc is NULL"
 
 typedef struct s_pipex
 {
@@ -54,6 +55,19 @@ typedef struct s_pipex
 	char	**cmd_paths;
 }	t_pipex;
 
+typedef struct s_bonus
+{
+	pid_t	pid_child1;
+	pid_t	pid_child2;
+	int		tube[2];
+	int		fd_in;
+	int		fd_out;
+	char	*cmd;
+	char	**cmd_flags;
+	char	*paths;
+	char	**cmd_paths;
+}	t_bonus;
+
 //main
 int		main(int argc, char **argv, char **envp);
 
@@ -63,10 +77,7 @@ void	paths_to_cmd(t_pipex *pipex, char **envp);
 void	exit_pipe(t_pipex *pipex);
 
 //bonus
-int		is_bonus(int argc, char **argv, char **envp, t_pipex *pipex);
-void	ft_here_doc(char *argv[], t_pipex pipex);
-void	paths_to_cmd(t_pipex *pipex, char **envp);
-void	exit_pipe(t_pipex *pipex);
+void	ft_putendl_fd(char *s, int fd);
 
 //forks:
 void	first_son(t_pipex pipex, char **argv, char **envp);
