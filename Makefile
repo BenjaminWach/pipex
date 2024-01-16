@@ -6,11 +6,13 @@
 #    By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/24 15:29:03 by bwach             #+#    #+#              #
-#    Updated: 2024/01/10 15:48:38 by bwach            ###   ########.fr        #
+#    Updated: 2024/01/15 14:23:49 by bwach            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CYAN   = \033[0;36m
+GREEN = \033[0;32m
+RED = \033[0;31m
 DEFAULT = \033[0m
 
 NAME = pipex
@@ -45,31 +47,34 @@ OBJ_U		=	$(UTILS:.c=.o)
 %.o: %.c $(HEADER) Makefile
 	@${CC} ${FLAGS} -c $< -o $@
 
-$(NAME): $(OBJ_U) $(OBJ_M)
-	@$(CC) $(OBJ_U) $(OBJ_M) -o $(NAME)
-	@echo -e "$(GREEN)$(NAME) created!$(DEFAULT)"
-
-all: $(NAME)
-
-norminette: | $(SRC) 
+all: $(NAME) $(MAKE) norminette
+	
+norminette:
 	@$(PRINTF) "$(CYAN)\nCheck with dat Norminette: $(BIN) $(DEFAULT)\n"
 	@norminette -R CheckForbiddenSourceHeader $(MPATH_DIR) $(UTIL_DIR)/*.c
 	@norminette -R CheckDefine $(MPATH_DIR) $(UTIL_DIR)/*.c
 	@echo "$(CYAN)\nNorminette done and validated faggot 🤣\n $(DEFAULT)"
 
+$(NAME): $(OBJ_U) $(OBJ_M)
+	@echo "$(CYAN)\n         COMPILING $(NAME)          \n$(DEFAULT)"
+	@echo "$(GREEN)-------------------------------------\n$(DEFAULT)"
+	@$(CC) $(OBJ_U) $(OBJ_M) -o $(NAME)
+	@echo -e: "$(GREEN)\t$(NAME) created!\n $(DEFAULT)"
+
 bonus:	$(OBJ_U) $(OBJ_B)
 	@$(CC) $(OBJ_U) $(OBJ_B) -o $(NAME)
-	@echo -e "$(GREEN)$(NAME) created!$(DEFAULT)"
+	@echo -e:"$(GREEN)$(NAME)created!$(DEFAULT)"
 
 clean:
 	@$(RM) $(OBJ_M)
 	@$(RM) $(OBJ_U)
 	@$(RM) $(OBJ_B)
-	@echo -e "$(YELLOW)object files deleted!$(DEFAULT)"
+	@echo -e: "$(RED)object files deleted!$(DEFAULT)"
 
 fclean:	clean
 	@$(RM) $(NAME)
-	@echo -e "$(RED)all deleted!$(DEFAULT)"
+	@$(RM) outfile.txt
+	@echo -e: "$(RED)all deleted!$(DEFAULT)"
 
 re:	fclean all
 
