@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:50:35 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/10 14:02:00 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/16 23:04:38 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	main(int ac, char **av, char **envp)
 	t_bonus	*pipexb;
 
 	if (ac != 5 || ac < 6 || !ft_strncmp(av[1], "here_doc", 9))
-		error_quit(ERR_INPUT);
+		msg_error(ERR_INPUT);
 	settings_bonus_vars(&pipexb, ac, av, envp);
+	
 }
