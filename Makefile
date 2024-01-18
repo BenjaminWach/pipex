@@ -6,7 +6,7 @@
 #    By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/24 15:29:03 by bwach             #+#    #+#              #
-#    Updated: 2024/01/15 14:23:49 by bwach            ###   ########.fr        #
+#    Updated: 2024/01/18 16:41:43 by bwach            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ PRINTF = printf
 BIN = pipex
 
 #FILES AND PATH
-HEADER_SRCS	=	pipex.h 
+HEADER_SRCS	=	pipex.h pipex_bonus.h 
 HEADER_DIR	=	inc/
 HEADER		=	$(addprefix $(HEADER_DIR), $(HEADER_SRCS))
 
@@ -32,22 +32,22 @@ MPATH_DIR	=	src/
 MPATH		=	$(addprefix $(MPATH_DIR), $(MPATH_SRCS))
 OBJ_M		=	$(MPATH:.c=.o)
 
-BPATH_SRCS	=		
+BPATH_SRCS	=	pipex_bonus.c pipes_bonus.c heredoc_bonus.c free_bonus.c files_bonus.c \
+				error_bonus.c cmd_ex_bonus.c
 BPATH_DIR	=	bonus/
 BPATH		=	$(addprefix $(BPATH_DIR), $(BPATH_SRCS))
 OBJ_B		=	$(BPATH:.c=.o)
 
-UTIL_SRCS	=	pipex_utils.c pipex_utils2.c pipex_utils3.c
+UTIL_SRCS	=	pipex_utils.c pipex_utils2.c pipex_utils3.c get_next_line.c get_next_line_utils.c
 UTIL_DIR	=	utils/
-UTILS 		=	$(addprefix $(UTIL_DIR), $(UTIL_SRCS))\
-				gnl/get_next_line_utils.c gnl/get_next_line.c
+UTILS 		=	$(addprefix $(UTIL_DIR), $(UTIL_SRCS))
 OBJ_U		=	$(UTILS:.c=.o)
 
 #COMMANDS
 %.o: %.c $(HEADER) Makefile
 	@${CC} ${FLAGS} -c $< -o $@
 
-all: $(NAME) $(MAKE) norminette
+all: $(NAME) #$(MAKE) norminette
 	
 norminette:
 	@$(PRINTF) "$(CYAN)\nCheck with dat Norminette: $(BIN) $(DEFAULT)\n"

@@ -6,11 +6,11 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 21:14:33 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/10 13:44:43 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/18 00:20:28 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../inc/pipex.h"
 
 //free memory and return a empty pointer
 static char	*free_str(char *str)

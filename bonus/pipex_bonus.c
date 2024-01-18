@@ -5,38 +5,38 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 13:50:35 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/16 23:04:38 by bwach            ###   ########.fr       */
+/*   Created: 2024/01/18 13:58:09 by bwach             #+#    #+#             */
+/*   Updated: 2024/01/18 16:28:51 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
+#include "../inc/pipex_bonus.h"
 
-static void	settings_bonus_var(t_bonus *pipexb, int ac, char **av, char **envp)
+int	main(int argc, char *argv[], char *envp[])
 {
-	if (ft_strncmp(av[1], "here_doc", 9))
-		here_doc(&pipexb, ac, av, envp);
+	t_pxb	pipexb;
+	int		i;
+
+	if (argc < 5)
+		return (msg_error(ERR_INP));
+	if (ft_strncmp(argv[1], "here_doc", 9))
+	{
+		if (argc < 6)
+			return (msg_error(ERR_INP));
+		i = 3;
+		pipexb.infile = open_file(argv[argc - 1], 2);
+		here_doc(&pipexb, argv);
+	}
 	else
 	{
-		if (access(av[1], F_OK) == -1)
-			error_quit(ERR_INFILE);
-		if (pipe(pipexb->tube) < 0)
-			error_quit(ERR_PIPE);
-		pipexb->fd_in = open(av[1], O_RDONLY);
-		if (pipexb->fd_in < 0)
-			error_quit(ERR_INFILE);
-		pipexb->fd_out = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (pipexb->fd_out < 0)
-			error_quit(ERR_OUTFILE);
+		i = 2;
+		pipexb.infile = open_file(argv[1], 0);
+		pipexb.outfile = open_file(argv[argc - 1], 1);
+		dup2(pipexb.infile, 0);
 	}
-}
-
-int	main(int ac, char **av, char **envp)
-{
-	t_bonus	*pipexb;
-
-	if (ac != 5 || ac < 6 || !ft_strncmp(av[1], "here_doc", 9))
-		msg_error(ERR_INPUT);
-	settings_bonus_vars(&pipexb, ac, av, envp);
-	
+	while (i < argc -2)
+		piping(&pipexb, argv[i++], envp);
+	dup2(pipexb.outfile, 1);
+	exec_cmd(&pipexb, argv[argc - 2], envp);
+	free_parent_bs(&pipexb);
 }

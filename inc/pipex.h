@@ -6,12 +6,16 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 16:22:09 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/10 15:35:09 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/18 16:25:30 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 # include <unistd.h>
 # include <fcntl.h>
@@ -36,6 +40,7 @@
 # define ERR_INFILE "Infile error\n"
 # define ERR_OUTFILE "Outfile error\n"
 # define ERR_CMD "Command not found: "
+# define ERR_ENVP "Environment"
 # define ERR_PIPE "Pipe error\n"
 # define ERR_PATH "Path not found\n"
 # define ERR_EXE "Execve failed\n"
@@ -55,19 +60,6 @@ typedef struct s_pipex
 	char	**cmd_paths;
 }	t_pipex;
 
-typedef struct s_bonus
-{
-	pid_t	pid_child1;
-	pid_t	pid_child2;
-	int		tube[2];
-	int		fd_in;
-	int		fd_out;
-	char	*cmd;
-	char	**cmd_flags;
-	char	*paths;
-	char	**cmd_paths;
-}	t_bonus;
-
 //main
 int		main(int argc, char **argv, char **envp);
 
@@ -75,9 +67,6 @@ int		main(int argc, char **argv, char **envp);
 char	*ft_find_path(char **envp);
 void	paths_to_cmd(t_pipex *pipex, char **envp);
 void	exit_pipe(t_pipex *pipex);
-
-//bonus
-void	ft_putendl_fd(char *s, int fd);
 
 //forks:
 void	first_son(t_pipex pipex, char **argv, char **envp);
@@ -94,8 +83,15 @@ void	ft_bzero(void *s, size_t n);
 void	*ft_memset(void *b, int c, size_t len);
 char	*ft_strrchr(const char *s, int c);
 
+//GNL
+char	*get_next_line(int fd);
+int		ft_strlen_gnl(char *str);
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
+char	*ft_substr_gnl(char *s, unsigned int start, size_t len);
+char	*ft_strjoin_gnl(char *s1, char *s2);
+void	*ft_memset_gnl(void *b, int c, size_t len);
+
 //error managements:
-void	name_prog(char **argv);
 int		msg_error(char *msg);
 void	error_quit(char *msg);
 

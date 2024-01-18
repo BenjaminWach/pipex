@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msg_error_bonus.c                                  :+:      :+:    :+:   */
+/*   pipes_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/16 20:22:05 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/16 20:25:37 by bwach            ###   ########.fr       */
+/*   Created: 2024/01/18 14:53:49 by bwach             #+#    #+#             */
+/*   Updated: 2024/01/18 16:07:03 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
+#include "../inc/pipex_bonus.h"
 
-int	msg(char *error)
+void	piping(t_pxb *pb, char *cmd, char **envp)
 {
-	write(2, error, ft_strlen(error));
-	return (1);
-}
-
-void	msg_pipe(char *msg)
-{
-	write(2, ERR_CMD, ft_strlen(ERR_CMD));
-	write(2, msg, ft_strlen(msg));
-	write(2, "\n", 1);
-}
-
-void	error_quit(char *error)
-{
-	perror(error);
-	exit(1);
+	if (pipe(pb->pipe) == -1)
+		msg_quit(ERR_PIPE);
+	pb->pid = fork();
+	if (pb->pid == -1)
+		msg_quit(ERR_PID);
+	if (!pb->pid)
+	{
+		close(pb->pipe[0]);
+		dup2(pb->pipe[1], 1);
+		exec_cmd(pb, cmd, envp);
+	}
+	else
+	{
+		close(pb->pipe[1]);
+		dup2(pb->pipe[0], 0);
+	}
 }

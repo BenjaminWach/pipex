@@ -6,11 +6,11 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 23:08:09 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/10 13:42:31 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/18 00:20:09 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../inc/pipex.h"
 
 int	ft_strlen_gnl(char *str)
 {
