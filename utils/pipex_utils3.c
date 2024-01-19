@@ -6,11 +6,22 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:15:58 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/10 13:23:07 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/19 13:48:14 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void	ft_putendl_fd(char *s, int fd)
+{
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
+}
 
 void	*ft_memset(void *b, int c, size_t len)
 {

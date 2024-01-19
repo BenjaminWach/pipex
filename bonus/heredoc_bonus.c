@@ -5,43 +5,56 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/18 14:35:28 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/18 15:38:05 by bwach            ###   ########.fr       */
+/*   Created: 2024/01/19 11:26:33 by bwach             #+#    #+#             */
+/*   Updated: 2024/01/19 14:44:19 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex_bonus.h"
 
-void	heredoc_data(char **av, t_pxb *pb)
+int	is_heredoc(char **av, t_pxb *pb)
 {
-	char	*line;
+	int	nb_arg;
 
-	close(pb->pipe[0]);
-	while (1)
+	if (av[1] && !ft_strncmp("here_doc", av[1], 9))
 	{
-		line = get_next_line(0);
-		if (ft_strncmp(line, av[2], ft_strlen(av[2])) == 0)
-		{
-			free(line);
-			msg_quit(ERR_HDOC);
-		}
-		write(pb->pipe[1], line, ft_strlen(line));
-		write(pb->pipe[1], "\n", 1);
-		free(line);
+		pb->hdc = 1;
+		nb_arg = 6;
+		return (nb_arg);
+	}
+	else
+	{
+		pb->hdc = 0;
+		nb_arg = 5;
+		return (nb_arg);
 	}
 }
 
-void	here_doc(t_pxb *pb, char **av)
+void	here_doc(char *limiter, t_pxb *pb)
 {
-	pb->pid = fork();
-	if (pb->pid == -1)
-		exit (0);
-	if (!pb->pid)
-		heredoc_data(av, pb);
-	else
+	int		doc;
+	char	*line;
+
+	doc = open(".heredoc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (doc < 0)
+		prog_error(ERR_HDOC);
+	while (1)
 	{
-		close(pb->pipe[1]);
-		dup2(pb->pipe[0], 0);
-		wait(NULL);
+		write(1, "heredoc> ", 9);
+		line = get_next_line(0);
+		if (line < 0)
+			msg_error(ERR_GNL);
+		if (ft_strncmp(limiter, line, ft_strlen(limiter)))
+			break ;
+		ft_putendl_fd(line, doc);
+		free(line);
+	}
+	free(line);
+	close(doc);
+	pb->infile = open(".heredoc", O_RDONLY);
+	if (pb->infile < 0)
+	{
+		unlink(".heredoc");
+		file_error("pipex (heredoc)");
 	}
 }

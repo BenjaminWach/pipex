@@ -5,38 +5,32 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/18 13:58:09 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/18 16:28:51 by bwach            ###   ########.fr       */
+/*   Created: 2024/01/19 11:16:23 by bwach             #+#    #+#             */
+/*   Updated: 2024/01/19 14:57:35 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex_bonus.h"
 
+static void	init_vars(int ac, char **av, char **envp, t_pxb *pb)
+{
+	pb->nb_cmd = ac - 3 - (pb->hdc);
+	pb->nb_pipe = 2 * (pb->nb_cmd - 1);
+	pb->pipe = (int *)malloc(sizeof(int) * pb->nb_pipe);
+	if (!pb->pipe)
+		msg_error(ERR_PIPE);
+	pb->env_path = ft_path(envp);
+	pb->cmd_paths = ft_split(pb->env_path, ':');
+	if (!pb->cmd_paths)
+		free_paths(&pb);
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
-	t_pxb	pipexb;
-	int		i;
+	t_pxb	pb;
 
-	if (argc < 5)
+	if (argc < is_heredoc(argv[1], &pb))
 		return (msg_error(ERR_INP));
-	if (ft_strncmp(argv[1], "here_doc", 9))
-	{
-		if (argc < 6)
-			return (msg_error(ERR_INP));
-		i = 3;
-		pipexb.infile = open_file(argv[argc - 1], 2);
-		here_doc(&pipexb, argv);
-	}
-	else
-	{
-		i = 2;
-		pipexb.infile = open_file(argv[1], 0);
-		pipexb.outfile = open_file(argv[argc - 1], 1);
-		dup2(pipexb.infile, 0);
-	}
-	while (i < argc -2)
-		piping(&pipexb, argv[i++], envp);
-	dup2(pipexb.outfile, 1);
-	exec_cmd(&pipexb, argv[argc - 2], envp);
-	free_parent_bs(&pipexb);
+	files_management(argc, argv, &pb);
+	init_vars(argc, argv, envp, &pb);
 }

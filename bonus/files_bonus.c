@@ -5,24 +5,52 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/18 14:25:07 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/18 15:38:23 by bwach            ###   ########.fr       */
+/*   Created: 2024/01/19 11:33:22 by bwach             #+#    #+#             */
+/*   Updated: 2024/01/19 14:42:36 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex_bonus.h"
 
-int	open_file(char *file, int in_out)
+char	*ft_path(char **envp)
 {
-	int	ret;
+	int	i;
 
-	if (in_out == 0)
-		ret = open(file, O_RDONLY, 0777);
-	if (in_out == 1)
-		ret = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (in_out == 2)
-		ret = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (in_out == -1)
-		exit (0);
-	return (ret);
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp("PATH=", envp[i], 5) == 0)
+			return (envp[i] + 5);
+		i++;
+	}
+	msg_error(ERR_PATH);
+	return (NULL);
+}
+
+static void	get_infile(int ac, char **av, t_pxb *pb)
+{
+	if (!ft_strncmp("here_doc", av[1], 9))
+		here_doc(av[2], pb);
+	else
+	{
+		pb->infile = open(av[1], O_RDONLY);
+		if (pb->infile < 0)
+			file_error("pipex (infile)");
+	}
+}
+
+static void	get_outfile(int ac, char **av, t_pxb *pb)
+{
+	if (pb->hdc)
+		pb->outfile = open(av, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else
+		pb->outfile = open(av, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (pb->outfile < 0)
+		file_error("pipex (outfile)");
+}
+
+void	files_management(int ac, char **av, t_pxb *pb)
+{
+	get_infile(ac, av, &pb);
+	get_outfile(ac, av, &pb);
 }

@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 16:22:09 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/18 16:25:30 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/19 13:53:28 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@
 # define ERR_PATH "Path not found\n"
 # define ERR_EXE "Execve failed\n"
 # define ERR_FORK "Fork failed\n"
-# define ERR_HEREDOC "here_doc is NULL"
 
 typedef struct s_pipex
 {
@@ -82,6 +81,8 @@ void	*ft_calloc(size_t count, size_t size);
 void	ft_bzero(void *s, size_t n);
 void	*ft_memset(void *b, int c, size_t len);
 char	*ft_strrchr(const char *s, int c);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putendl_fd(char *s, int fd);
 
 //GNL
 char	*get_next_line(int fd);
