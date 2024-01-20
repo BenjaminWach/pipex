@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 22:19:50 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/10 13:22:04 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/20 13:07:29 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	second_son(t_pipex pipex, char **argv, char **envp)
 	{
 		free_child(&pipex);
 		msg_error(ERR_CMD);
-		exit(1);
+		exit(127);
 	}
 	if (execve(pipex.cmd, pipex.cmd_flags, envp) == -1)
 		error_quit(ERR_EXE);

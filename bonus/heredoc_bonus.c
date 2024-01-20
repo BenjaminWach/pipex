@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 11:26:33 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/19 14:44:19 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/20 15:22:47 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,26 +35,26 @@ void	here_doc(char *limiter, t_pxb *pb)
 	int		doc;
 	char	*line;
 
-	doc = open(".heredoc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	doc = open(".here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (doc < 0)
-		prog_error(ERR_HDOC);
+		file_error(ERR_HDOC);
 	while (1)
 	{
 		write(1, "heredoc> ", 9);
 		line = get_next_line(0);
 		if (line < 0)
 			msg_error(ERR_GNL);
-		if (ft_strncmp(limiter, line, ft_strlen(limiter)))
+		if (!ft_strncmp(limiter, line, ft_strlen(limiter)))
 			break ;
 		ft_putendl_fd(line, doc);
 		free(line);
 	}
 	free(line);
 	close(doc);
-	pb->infile = open(".heredoc", O_RDONLY);
+	pb->infile = open(".here_doc", O_RDONLY);
 	if (pb->infile < 0)
 	{
-		unlink(".heredoc");
+		unlink(".here_doc");
 		file_error("pipex (heredoc)");
 	}
 }

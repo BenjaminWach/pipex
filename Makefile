@@ -6,7 +6,7 @@
 #    By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/24 15:29:03 by bwach             #+#    #+#              #
-#    Updated: 2024/01/18 16:41:43 by bwach            ###   ########.fr        #
+#    Updated: 2024/01/20 16:27:20 by bwach            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,15 @@ RM = rm -f
 PRINTF = printf
 BIN = pipex
 
+#Example of args
+ARGS1 = infile.txt "ls -l" "wc -l" outfile.txt
+ARGS2 = infile.txt "grep a1" "wc -w" outfile.txt
+ARGS3 = infile.txt "cat" "rev" outfile.txt
+
+#Example for bonus
+ARGSB1 = infile.txt "ls -l" "grep a" "wc -l" outfile.txt
+ARGSB2 = here_doc l "grep a" "wc -l" outfile.txt
+
 #FILES AND PATH
 HEADER_SRCS	=	pipex.h pipex_bonus.h 
 HEADER_DIR	=	inc/
@@ -32,8 +41,8 @@ MPATH_DIR	=	src/
 MPATH		=	$(addprefix $(MPATH_DIR), $(MPATH_SRCS))
 OBJ_M		=	$(MPATH:.c=.o)
 
-BPATH_SRCS	=	pipex_bonus.c pipes_bonus.c heredoc_bonus.c free_bonus.c files_bonus.c \
-				error_bonus.c cmd_ex_bonus.c
+BPATH_SRCS	=	pipex_bonus.c heredoc_bonus.c clean_bonus.c files_bonus.c \
+				error_bonus.c childs_bonus.c
 BPATH_DIR	=	bonus/
 BPATH		=	$(addprefix $(BPATH_DIR), $(BPATH_SRCS))
 OBJ_B		=	$(BPATH:.c=.o)
@@ -63,7 +72,27 @@ $(NAME): $(OBJ_U) $(OBJ_M)
 
 bonus:	$(OBJ_U) $(OBJ_B)
 	@$(CC) $(OBJ_U) $(OBJ_B) -o $(NAME)
-	@echo -e:"$(GREEN)$(NAME)created!$(DEFAULT)"
+	@echo -e:"$(GREEN)$(NAME) bonus created!$(DEFAULT)"
+
+run1: $(NAME)
+	@./$(NAME) $(ARGS1)
+	@echo ./$(NAME) $(ARGS1)
+
+run2: $(NAME)
+	@./$(NAME) $(ARGS2)
+	@echo ./$(NAME) $(ARGS2)
+
+run3: $(NAME)
+	@./$(NAME) $(ARGS3)
+	@echo ./$(NAME) $(ARGS3) 
+
+runb1: bonus
+	@./$(NAME) $(ARGSB1)
+	@echo ./$(NAME) $(ARGSB1)
+
+runb2: bonus
+	@./$(NAME) $(ARGSB2)
+	@echo ./$(NAME) $(ARGSB2)
 
 clean:
 	@$(RM) $(OBJ_M)
@@ -73,7 +102,7 @@ clean:
 
 fclean:	clean
 	@$(RM) $(NAME)
-	@$(RM) outfile.txt
+	@$(RM) outfile.txt .here_doc
 	@echo -e: "$(RED)all deleted!$(DEFAULT)"
 
 re:	fclean all

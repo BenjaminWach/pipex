@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:58:31 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/19 14:44:35 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/20 14:37:31 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ typedef struct s_pxb
 	int		infile;
 	int		outfile;
 	int		hdc;
-	int		pipe[2];
+	int		*pipe;
 	int		id;
+	int		status;
 	pid_t	pid;
 	char	*env_path;
 	char	**cmd_paths;
@@ -53,6 +54,9 @@ typedef struct s_pxb
 
 //FUNCTIONS:
 int		main(int argc, char *argv[], char *envp[]);
+char	*parse_cmd(char **path, char *flag);
+void	close_all_pipes(t_pxb *pb);
+void	children(t_pxb pb, int ac, char **av, char **env);
 
 //here_doc
 int		is_heredoc(char **av, t_pxb *pb);
@@ -60,11 +64,15 @@ void	here_doc(char *limiter, t_pxb *pb);
 
 //paths
 void	files_management(int ac, char **av, t_pxb *pb);
-char	*ft_find_path(char **envp);
+char	*ft_path(char **envp);
 
 //error management
 void	file_error(char *err);
 int		msg_error(char *msg);
 void	pipe_error(char *arg);
+
+//free
+void	free_cmds(t_pxb *pb);
+void	free_path(t_pxb *pb);
 
 #endif

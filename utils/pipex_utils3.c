@@ -6,11 +6,16 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:15:58 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/19 13:48:14 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/20 13:25:28 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	write(fd, s, ft_strlen(s));
+}
 
 void	ft_putchar_fd(char c, int fd)
 {

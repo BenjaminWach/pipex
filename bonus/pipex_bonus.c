@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 11:16:23 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/19 14:57:35 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/20 16:21:02 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,58 @@ static void	init_vars(int ac, char **av, char **envp, t_pxb *pb)
 	pb->env_path = ft_path(envp);
 	pb->cmd_paths = ft_split(pb->env_path, ':');
 	if (!pb->cmd_paths)
-		free_paths(&pb);
+		free_path(pb);
+	pb->id = -1;
+	pb->status = 0;
+}
+
+static void	piping_cmd(t_pxb *pb)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < (pb->nb_cmd))
+	{
+		pipe(pb->pipe + 2 * i);
+		if (pipe < 0)
+			free_cmds(pb);
+		i++;
+	}
+}
+
+char	*parse_cmd(char **path, char *flag)
+{
+	char	*tmp;
+	char	*cmd;
+
+	while (*path)
+	{
+		tmp = ft_strjoin(*path, "/");
+		cmd = ft_strjoin(tmp, flag);
+		free(tmp);
+		if (access(cmd, F_OK) == 0)
+			return (cmd);
+		free(cmd);
+		path++;
+	}
+	return (NULL);
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_pxb	pb;
 
-	if (argc < is_heredoc(argv[1], &pb))
+	if (argc < is_heredoc(argv, &pb))
 		return (msg_error(ERR_INP));
 	files_management(argc, argv, &pb);
 	init_vars(argc, argv, envp, &pb);
+	piping_cmd(&pb);
+	while ((++pb.id) < (pb.nb_cmd))
+		children(pb, argc, argv, envp);
+	close_all_pipes(&pb);
+	waitpid(-1, &pb.status, 0);
+	if (WIFEXITED(pb.status))
+		return (WEXITSTATUS(pb.status));
+	free_cmds(&pb);
+	return (pb.status);
 }

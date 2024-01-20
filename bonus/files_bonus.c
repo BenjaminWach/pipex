@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 11:33:22 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/19 14:42:36 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/20 14:50:44 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	get_infile(int ac, char **av, t_pxb *pb)
 	}
 }
 
-static void	get_outfile(int ac, char **av, t_pxb *pb)
+static void	get_outfile(int ac, char *av, t_pxb *pb)
 {
 	if (pb->hdc)
 		pb->outfile = open(av, O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -51,6 +51,6 @@ static void	get_outfile(int ac, char **av, t_pxb *pb)
 
 void	files_management(int ac, char **av, t_pxb *pb)
 {
-	get_infile(ac, av, &pb);
-	get_outfile(ac, av, &pb);
+	get_infile(ac, av, pb);
+	get_outfile(ac, av[ac - 1], pb);
 }
