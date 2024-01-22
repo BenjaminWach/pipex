@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 16:22:09 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/20 13:25:47 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/21 23:33:24 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define ERR_INPUT "Invalid numbers of arguments\n"
 # define ERR_INFILE "Infile error\n"
 # define ERR_OUTFILE "Outfile error\n"
-# define ERR_CMD "Command not found: "
+# define ERR_CMD "command not found"
 # define ERR_ENVP "Environment"
 # define ERR_PIPE "Pipe error\n"
 # define ERR_PATH "Path not found\n"
@@ -74,6 +74,7 @@ void	second_son(t_pipex pipex, char **argv, char **envp);
 //utils
 int		ft_strncmp(char *s1, char *s2, int n);
 int		ft_strlen(char *str);
+char	*ft_itoa(int n);
 char	**ft_split(char *s, char c);
 char	*ft_substr(char *str, int start, int len);
 char	*ft_strjoin(char *s1, char *s2);

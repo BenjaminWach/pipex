@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:58:31 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/20 14:37:31 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/22 11:15:13 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define ERR_OUT "Outfile"
 # define ERR_INP "Invalid number of arguments.\n"
 # define ERR_PID "Fork's error"
-# define ERR_CMD "Command not found: "
+# define ERR_CMD "command not found"
 # define ERR_HDOC "Heredoc's error"
 # define ERR_GNL "GNL 's error"
 
@@ -56,7 +56,7 @@ typedef struct s_pxb
 int		main(int argc, char *argv[], char *envp[]);
 char	*parse_cmd(char **path, char *flag);
 void	close_all_pipes(t_pxb *pb);
-void	children(t_pxb pb, int ac, char **av, char **env);
+void	children(t_pxb p, int ac, char **av, char **env);
 
 //here_doc
 int		is_heredoc(char **av, t_pxb *pb);
@@ -64,15 +64,15 @@ void	here_doc(char *limiter, t_pxb *pb);
 
 //paths
 void	files_management(int ac, char **av, t_pxb *pb);
-char	*ft_path(char **envp);
+char	*ft_path(char **envp, t_pxb *pb);
 
 //error management
 void	file_error(char *err);
-int		msg_error(char *msg);
-void	pipe_error(char *arg);
+int		msg_error_bs(char *msg);
 
 //free
 void	free_cmds(t_pxb *pb);
 void	free_path(t_pxb *pb);
+void	free_pipe(t_pxb *pb);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/24 15:29:03 by bwach             #+#    #+#              #
-#    Updated: 2024/01/20 16:27:20 by bwach            ###   ########.fr        #
+#    Updated: 2024/01/22 13:12:15 by bwach            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +23,14 @@ PRINTF = printf
 BIN = pipex
 
 #Example of args
-ARGS1 = infile.txt "ls -l" "wc -l" outfile.txt
-ARGS2 = infile.txt "grep a1" "wc -w" outfile.txt
-ARGS3 = infile.txt "cat" "rev" outfile.txt
+ARGS1 = /dev/urandom "cat" "head -1" outfile 
+ARGS2 = infile "grep a1" "wc -w" outfile
+ARGS3 = infile "cat" "rev" outfile
 
 #Example for bonus
-ARGSB1 = infile.txt "ls -l" "grep a" "wc -l" outfile.txt
-ARGSB2 = here_doc l "grep a" "wc -l" outfile.txt
+ARGSB1 = infile "cat" " grep -o 'hello' " "wc -l" outfile
+ARGSB3 = infile "cat" "tr e f" "tr f a" "tr a e" "tr e a" outfile
+ARGSB2 = here_doc l "grep a" "wc -l" outfile
 
 #FILES AND PATH
 HEADER_SRCS	=	pipex.h pipex_bonus.h 
@@ -47,7 +48,7 @@ BPATH_DIR	=	bonus/
 BPATH		=	$(addprefix $(BPATH_DIR), $(BPATH_SRCS))
 OBJ_B		=	$(BPATH:.c=.o)
 
-UTIL_SRCS	=	pipex_utils.c pipex_utils2.c pipex_utils3.c get_next_line.c get_next_line_utils.c
+UTIL_SRCS	=	pipex_utils.c pipex_utils2.c pipex_utils3.c get_next_line.c get_next_line_utils.c 
 UTIL_DIR	=	utils/
 UTILS 		=	$(addprefix $(UTIL_DIR), $(UTIL_SRCS))
 OBJ_U		=	$(UTILS:.c=.o)
@@ -94,6 +95,10 @@ runb2: bonus
 	@./$(NAME) $(ARGSB2)
 	@echo ./$(NAME) $(ARGSB2)
 
+runb3: bonus
+	@./$(NAME) $(ARGSB3)
+	@echo ./$(NAME) $(ARGSB3)
+
 clean:
 	@$(RM) $(OBJ_M)
 	@$(RM) $(OBJ_U)
@@ -102,7 +107,7 @@ clean:
 
 fclean:	clean
 	@$(RM) $(NAME)
-	@$(RM) outfile.txt .here_doc
+	@$(RM) outfile .here_doc
 	@echo -e: "$(RED)all deleted!$(DEFAULT)"
 
 re:	fclean all

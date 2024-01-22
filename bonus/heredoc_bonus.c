@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 11:26:33 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/20 15:22:47 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/22 11:12:28 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	here_doc(char *limiter, t_pxb *pb)
 		write(1, "heredoc> ", 9);
 		line = get_next_line(0);
 		if (line < 0)
-			msg_error(ERR_GNL);
+			msg_error_bs(ERR_GNL);
 		if (!ft_strncmp(limiter, line, ft_strlen(limiter)))
 			break ;
-		ft_putendl_fd(line, doc);
+		write(doc, line, ft_strlen(line));
 		free(line);
 	}
 	free(line);

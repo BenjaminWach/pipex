@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 11:16:23 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/20 16:21:02 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/22 11:15:10 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 static void	init_vars(int ac, char **av, char **envp, t_pxb *pb)
 {
+	pb->id = -1;
+	pb->status = 0;
 	pb->nb_cmd = ac - 3 - (pb->hdc);
 	pb->nb_pipe = 2 * (pb->nb_cmd - 1);
 	pb->pipe = (int *)malloc(sizeof(int) * pb->nb_pipe);
 	if (!pb->pipe)
-		msg_error(ERR_PIPE);
-	pb->env_path = ft_path(envp);
+		msg_error_bs(ERR_PIPE);
+	pb->env_path = ft_path(envp, pb);
 	pb->cmd_paths = ft_split(pb->env_path, ':');
 	if (!pb->cmd_paths)
-		free_path(pb);
-	pb->id = -1;
-	pb->status = 0;
+		free_pipe(pb);
 }
 
 static void	piping_cmd(t_pxb *pb)
@@ -36,7 +36,7 @@ static void	piping_cmd(t_pxb *pb)
 	{
 		pipe(pb->pipe + 2 * i);
 		if (pipe < 0)
-			free_cmds(pb);
+			free_path(pb);
 		i++;
 	}
 }
@@ -64,7 +64,7 @@ int	main(int argc, char *argv[], char *envp[])
 	t_pxb	pb;
 
 	if (argc < is_heredoc(argv, &pb))
-		return (msg_error(ERR_INP));
+		return (msg_error_bs(ERR_INP));
 	files_management(argc, argv, &pb);
 	init_vars(argc, argv, envp, &pb);
 	piping_cmd(&pb);
@@ -74,6 +74,6 @@ int	main(int argc, char *argv[], char *envp[])
 	waitpid(-1, &pb.status, 0);
 	if (WIFEXITED(pb.status))
 		return (WEXITSTATUS(pb.status));
-	free_cmds(&pb);
+	free_path(&pb);
 	return (pb.status);
 }

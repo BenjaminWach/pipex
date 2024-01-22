@@ -6,7 +6,7 @@
 /*   By: bwach <bwach@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:03:33 by bwach             #+#    #+#             */
-/*   Updated: 2024/01/20 14:33:58 by bwach            ###   ########.fr       */
+/*   Updated: 2024/01/22 04:11:22 by bwach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,36 @@ static void	redirection(int stdin, int stdout)
 	dup2(stdout, STDOUT_FILENO);
 }
 
-void	children(t_pxb pb, int ac, char **av, char **env)
+static void	no_cmd_msg(t_pxb *p)
 {
-	pb.pid = fork();
-	if (!pb.pid)
+	write(2, "pipex: ", 7);
+	write(2, p->cmd_args[0], ft_strlen(p->cmd_args[0]));
+	write(2, ": command not found\n", 20);
+}
+
+void	children(t_pxb p, int ac, char **av, char **env)
+{
+	p.pid = fork();
+	if (!p.pid)
 	{
-		if (pb.id == 0)
-			redirection(pb.infile, pb.pipe[1]);
-		else if (pb.id == pb.nb_cmd - 1)
-			redirection(pb.pipe[2 * pb.id - 2], pb.outfile);
+		if (p.id == 0)
+			redirection(p.infile, p.pipe[1]);
+		else if (p.id == p.nb_cmd - 1)
+			redirection(p.pipe[2 * p.id - 2], p.outfile);
 		else
-			redirection(pb.pipe[2 * pb.id - 2], pb.pipe[2 * pb.id + 1]);
-		close_all_pipes(&pb);
-		pb.cmd_args = ft_split(av[2 + pb.hdc + pb.id], ' ');
-		pb.cmd = parse_cmd(pb.cmd_paths, pb.cmd_args[0]);
-		if (!pb.cmd)
+			redirection(p.pipe[2 * p.id - 2], p.pipe[2 * p.id + 1]);
+		close_all_pipes(&p);
+		p.cmd_args = ft_split(av[2 + p.hdc + p.id], ' ');
+		p.cmd = parse_cmd(p.cmd_paths, p.cmd_args[0]);
+		if (!p.cmd)
 		{
-			write(2, ERR_CMD, ft_strlen(ERR_CMD));
-			ft_putendl_fd(pb.cmd_args[0], 2);
-			free_path(&pb);
-			if (pb.id == (ac - 1))
+			no_cmd_msg(&p);
+			free_path(&p);
+			if (p.id == (p.nb_cmd - 1))
 				exit(127);
-			exit(1);
+			exit(0);
 		}
-		if (execve(pb.cmd, pb.cmd_args, env) == -1)
-			msg_error(ERR_EXE);
+		if (execve(p.cmd, p.cmd_args, env) == -1)
+			msg_error_bs(ERR_CMD);
 	}
 }
